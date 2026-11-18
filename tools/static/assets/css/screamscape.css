@@ -1,0 +1,432 @@
+/* ==========================================================================
+   Screamscape - responsive layout
+   Recreates the original fixed 1240px NetObjects table layout with CSS Grid,
+   then reflows it for tablets and phones.
+     >= 1100px  : original three-column desktop layout
+     760-1099px : side menu + news column; Track Record moves below the news
+     < 760px    : single column, collapsible menu, scaled masthead
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+  --site-max: 1240px;
+  --teal: #23718a;
+  --teal-dark: #1b5e73;
+  --orange: #f6a500;
+  --gutter: clamp(10px, 3vw, 29px);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: #000;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12pt;
+}
+
+/* ---- original site typography (fusion.css / style.css) ---------------- */
+p, pre, blockquote, h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  margin-top: 0;
+  margin-bottom: 19px;
+}
+h1 { font-size: 31px; } h2 { font-size: 24px; } h3 { font-size: 18px; }
+h4 { font-size: 16px; } h5 { font-size: 13px; } h6 { font-size: 10px; }
+ul, ol { font-size: 14px; }
+blockquote { margin: 0 40px 21.28px; }
+a { font-size: 12px; font-weight: normal; font-style: normal; }
+
+img { max-width: 100%; height: auto; }
+
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -40px;
+  z-index: 10;
+  padding: 6px 12px;
+  background: var(--orange);
+  color: #000;
+  font: bold 14px Tahoma, Verdana, Arial, sans-serif;
+}
+.skip-link:focus { top: 8px; }
+
+:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+
+.site {
+  max-width: var(--site-max);
+  margin-inline: auto;
+}
+
+/* ==========================================================================
+   Masthead
+   ========================================================================== */
+.masthead {
+  display: grid;
+  grid-template-columns: minmax(0, 950fr) minmax(0, 280fr);
+  column-gap: 10px;
+}
+
+.masthead__brand {
+  display: grid;
+  grid-template-columns: minmax(0, 298fr) minmax(0, 462fr) minmax(0, 190fr);
+  align-content: start;
+}
+.masthead__brand img { display: block; width: 100%; height: auto; }
+.masthead__logo { display: block; }
+.masthead__tagline { grid-column: 1 / -1; }
+
+/* Social icons: the original used an image map; these links sit over the
+   same hot-spots as percentages so they scale with the image. */
+.masthead__social { position: relative; }
+.masthead__social-link {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+  height: var(--h);
+  border-radius: 6px;
+}
+
+.masthead__ad {
+  grid-column: 1 / -1;
+  padding-top: 19px;
+  background: url("../images/bar_vertical_grade2.jpg") repeat-x;
+}
+
+.masthead__welcome {
+  padding: 0 0 0 68px;
+  font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+}
+.welcome__title {
+  position: relative;
+  margin: 0 0 5px;
+  padding-left: 21px;
+  font: bold 14px Tahoma, Verdana, Arial, Helvetica, sans-serif;
+}
+.welcome__title img {
+  position: absolute;
+  left: -2px;
+  top: 0;
+}
+.welcome__text p { margin-bottom: 19px; }
+.welcome__text p:last-child { margin-bottom: 0; }
+
+/* ==========================================================================
+   Ad placeholders (the live site's ad code is not loaded in this demo)
+   ========================================================================== */
+.ad {
+  display: grid;
+  place-items: center;
+  width: min(100%, var(--ad-w));
+  aspect-ratio: var(--ad-r);
+  border: 1px dashed #9ab;
+  background: repeating-linear-gradient(45deg, #f4f7f8 0 10px, #eaf0f2 10px 20px);
+  color: #678;
+  font: 11px Tahoma, Verdana, Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.ad-wrap { margin: 0 0 12px; }
+.ad-wrap--right { float: right; margin: 0 0 12px 15px; }
+.ad-wrap--left  { float: left;  margin: 0 15px 12px 0; }
+.ad-wrap .ad { width: var(--ad-w); max-width: 100%; }
+
+/* ==========================================================================
+   Body: side menu + content
+   ========================================================================== */
+.layout {
+  container: layout / inline-size;
+  display: grid;
+  grid-template-columns: 196px minmax(0, 1fr);
+}
+
+/* ---- side navigation -------------------------------------------------- */
+.sidenav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.sidenav__panel {
+  width: 196px;
+  padding: 5px 6px 180px 5px;
+  background: url("../images/bar_vertical_dark.jpg") repeat;
+}
+.sidenav__list {
+  margin: 0;
+  padding: 64px 0 85px;
+  list-style: none;
+  font-size: 0;
+  background:
+    url("../images/side_top.gif") no-repeat top left,
+    url("../images/side_bottom.gif") no-repeat bottom left,
+    url("../images/side_bg.gif") repeat-y;
+}
+.sidenav__list a { display: block; }
+.sidenav__list img { display: block; width: 185px; height: 23px; }
+.sidenav__list a:hover img,
+.sidenav__list a:focus-visible img { filter: brightness(1.25) saturate(1.2); }
+
+.sidenav__toggle { display: none; }
+
+/* ---- content columns ------------------------------------------------- */
+.content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 209px;
+  column-gap: 70px;
+  align-items: stretch;
+  padding: 10px 10px 0 var(--gutter);
+  background: url("../images/side_corner2.gif") repeat-x top left;
+}
+
+.bar {
+  min-height: 35px;
+  margin: 0 0 7px;
+  padding: 8px 9px 6px 16px;
+  background:
+    url("../images/bodyLEFT.gif") no-repeat left top,
+    url("../images/body2.gif") no-repeat right top,
+    url("../images/body_bg.gif") repeat-x left top / auto 100%;
+  font: bold 16px/1.2 "Times New Roman", Times, serif;
+}
+
+.news { min-width: 0; padding-bottom: 20px; }
+.news__text { overflow-wrap: anywhere; }
+.news__text > :last-child { margin-bottom: 0; }
+
+/* Keep legacy fixed-width content inside the column. */
+.news__text :where(img, table, iframe, video, embed, object, blockquote, div, p, span, form) {
+  max-width: 100%;
+}
+.news__text table { height: auto !important; }
+/* Single-cell wrapper tables (used around most embeds) become plain blocks so
+   their content can shrink; real multi-column tables scroll sideways instead. */
+.news__text .wrap-table,
+.news__text .wrap-table > tbody,
+.news__text .wrap-table > tbody > tr,
+.news__text .wrap-table > tbody > tr > td,
+.news__text .wrap-table > tr,
+.news__text .wrap-table > tr > td {
+  display: block;
+  width: auto !important;
+  max-width: 100%;
+}
+.news__text .data-table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.news__text iframe.embed-16x9 {
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+.news__text .instagram-media,
+.news__text .twitter-tweet,
+.news__text .tiktok-embed,
+.news__text .text-post-media,
+.news__text .reddit-embed-bq {
+  min-width: 0 !important;
+  max-width: min(540px, 100%) !important;
+}
+.news__text--image img { display: block; }
+/* boxed text regions (e.g. the yellow home-page update list) */
+.news__text[style*="border"] { padding: 2px 4px; }
+
+/* ---- Track Record column -------------------------------------------- */
+.track {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+}
+.track > .bar { flex: none; }
+.track__panel {
+  flex: 1 0 auto;
+  min-height: 240px;
+  padding: 0 40px 20px 0;
+  background: url("../images/track_border210.gif") repeat-y right top;
+}
+.track__panel .ad { margin-bottom: 40px; }
+.track__text { font-size: 12px; }
+.track__text p { margin-bottom: 12px; }
+.track__text img { display: block; margin-block: 4px; }
+/* blocks that follow the track panel (e.g. Halloween Horror Nights promos) */
+.track__panel ~ .track__text,
+.track__panel ~ .track__text--image { margin: 16px 0 0; }
+
+.search form { display: flex; flex-wrap: wrap; gap: 4px; margin: 16px 0 24px; }
+.search input[type="search"] { flex: 1 1 140px; min-width: 0; padding: 3px 4px; font-size: 14px; }
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.footer {
+  display: grid;
+  grid-template-columns: 195px minmax(0, 1fr);
+  align-items: start;
+  column-gap: 37px;
+  padding-top: 5px;
+  background: url("../images/footer_border.gif") repeat-x top left / auto 5px;
+}
+.footer__hill { display: block; }
+.footer__text { padding-top: 9px; padding-right: 10px; }
+.footer__text p { margin: 0; text-align: center; }
+.footer__text a { font-size: inherit; }
+
+/* ==========================================================================
+   Tablet: masthead welcome text drops below the banner
+   ========================================================================== */
+@media (max-width: 1099px) {
+  .masthead { grid-template-columns: minmax(0, 1fr); }
+  .masthead__welcome {
+    padding: 10px var(--gutter);
+    border-bottom: 1px solid #d6e4e9;
+  }
+  .masthead__welcome .welcome__text {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 1em;
+  }
+  .masthead__welcome .welcome__text p { margin-bottom: 4px; flex: 1 1 280px; }
+  .masthead__welcome .welcome__text p:empty,
+  .masthead__welcome .welcome__text p:last-child:not(:has(:not(:empty))) { display: none; }
+  .masthead__ad { padding: 10px var(--gutter); }
+  .masthead__ad .ad { margin-inline: auto; }
+}
+
+/* Track Record drops below the news when the content area gets narrow. */
+@container layout (width < 860px) {
+  .content {
+    grid-template-columns: minmax(0, 1fr);
+    padding-right: var(--gutter);
+  }
+  .news__text .spacer + .spacer { display: none; }
+  .track { border-top: 5px solid transparent; }
+  .track__panel {
+    flex: none;
+    min-height: 0;
+    padding-right: 48px;
+  }
+  .track__panel .ad--sky { display: none; }
+  .ad-wrap--right,
+  .ad-wrap--left { float: none; margin: 0 auto 16px; }
+  .ad-wrap .ad { margin-inline: auto; }
+  .track__text { columns: 2 220px; column-gap: 24px; }
+  .track__text p, .track__text br + * { break-inside: avoid; }
+}
+
+/* ==========================================================================
+   Phone
+   ========================================================================== */
+@media (max-width: 759px) {
+  body { font-size: 16px; }
+  /* Original links are fixed at 12px; let them match the surrounding text. */
+  .news a, .track a, .welcome__text a { font-size: inherit; }
+  .site [style*="font-size: 12px"],
+  .site [style*="font-size:12px"] { font-size: 14px !important; }
+  .site [style*="font-size: 10px"],
+  .site [style*="font-size: 11px"] { font-size: 13px !important; }
+
+  .masthead__brand { grid-template-columns: minmax(0, 298fr) minmax(0, 190fr); }
+  .masthead__brand .masthead__art { display: none; }
+
+  .layout { grid-template-columns: minmax(0, 1fr); }
+
+  /* Menu becomes a collapsible bar under the masthead. */
+  .sidenav {
+    display: block;
+    background: url("../images/bar_vertical_dark.jpg") repeat;
+    padding: 6px var(--gutter);
+  }
+  .sidenav > .ad { display: none; }
+  .sidenav__panel { width: auto; padding: 0; background: none; }
+  .sidenav__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+    justify-items: center;
+    padding: 8px 0;
+    border-radius: 10px;
+    background: url("../images/side_bg.gif") repeat-y center top / 100% auto;
+  }
+  .sidenav__list img { width: 185px; }
+
+  .js .sidenav__toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 44px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 10px;
+    background: url("../images/body_bg.gif") repeat-x left top / auto 100%, var(--orange);
+    color: #000;
+    font: bold 16px Tahoma, Verdana, Arial, sans-serif;
+    cursor: pointer;
+  }
+  .sidenav__burger,
+  .sidenav__burger::before,
+  .sidenav__burger::after {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 1px;
+    transition: transform .2s, opacity .2s;
+  }
+  .sidenav__burger { position: relative; }
+  .sidenav__burger::before,
+  .sidenav__burger::after { content: ""; position: absolute; left: 0; }
+  .sidenav__burger::before { top: -6px; }
+  .sidenav__burger::after { top: 6px; }
+  .sidenav__toggle[aria-expanded="true"] .sidenav__burger { background: transparent; }
+  .sidenav__toggle[aria-expanded="true"] .sidenav__burger::before { transform: translateY(6px) rotate(45deg); }
+  .sidenav__toggle[aria-expanded="true"] .sidenav__burger::after { transform: translateY(-6px) rotate(-45deg); }
+
+  .js .sidenav__toggle[aria-expanded="false"] + .sidenav__panel { display: none; }
+  .js .sidenav__toggle[aria-expanded="true"] + .sidenav__panel { margin-top: 6px; }
+
+  .content { padding-top: 12px; background-size: auto 5px; }
+
+  .bar { font-size: 18px; }
+
+  /* Floated pictures and boxes stack instead of squeezing the text. */
+  .news__text img[align="left" i],
+  .news__text img[align="right" i],
+  .news__text table[align="left" i],
+  .news__text table[align="right" i] {
+    float: none;
+    display: block;
+    margin: 0 auto 12px;
+  }
+  .news__text table[align] { display: table; }
+  .ad-wrap--right,
+  .ad-wrap--left { float: none; margin: 0 auto 16px; }
+  .ad-wrap .ad { margin-inline: auto; }
+  .news__text blockquote:not([class]) { margin-inline: 16px; }
+
+  .track__text { columns: auto; }
+
+  .footer { grid-template-columns: minmax(0, 1fr); justify-items: center; padding-bottom: 16px; }
+  .footer__text { padding: 8px var(--gutter) 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+@media print {
+  .ad, .ad-wrap, .sidenav, .masthead__ad { display: none !important; }
+  .layout, .content { display: block; }
+}

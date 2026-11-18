@@ -1,0 +1,21 @@
+/* CSS definition file containing site wide stylesheets */
+
+A {
+	font-size: 12px
+}
+
+A:hover {
+	font-size: 12px
+}
+
+A:active {
+	font-size: 12px
+}
+
+A:visited {
+	font-size: 12px
+}
+
+A:link {
+	font-size: 12px
+}

@@ -1,0 +1,48 @@
+/* CSS definition file containing sitestyle stylesheets */
+BODY { font-family: "Times New Roman",  Times,  Serif; font-size: 12pt}
+ A:active { font-size: 12px; font-weight: normal; font-style: normal}
+ A:link { font-size: 12px}
+ UL { font-size: 14px}
+ A:visited { font-size: 12px; font-weight: normal; font-style: normal}
+ .TextObject{ font-family: "Times New Roman",  Times,  Serif; font-size: 12pt}
+ P { font-family: "Times New Roman",  Times,  Serif; font-size: 12pt}
+ OL { font-size: 14px}
+ A { font-size: 12px; font-weight: normal; font-style: normal}
+ .TextNavBar{ font-family: Tahoma, Verdana, Arial, Helvetica, Sans-serif; font-size: 9px; text-align: right}
+ A:hover { font-size: 12px}
+ 
+.nof_ComputersProcessorBanners1-Banner1{
+font-family:Tahoma; font-size:18px; font-weight:700; font-style:normal; color:#ffffff 
+}
+
+.nof_ComputersProcessorNavbar2-Regular{
+font-family:MS Sans Serif ; font-size:13px; font-weight:400; font-style:normal; color:#000000 
+}
+
+.nof_ComputersProcessorNavbar4-Rollover{
+font-family:MS Sans Serif ; font-size:13px; font-weight:400; font-style:normal; color:#000000 
+}
+
+.nof_ComputersProcessorNavbar6-Highlighted{
+font-family:MS Sans Serif ; font-size:13px; font-weight:400; font-style:normal; color:#000000 
+}
+
+.nof_ComputersProcessorNavbar8-HighlightedRollover{
+font-family:MS Sans Serif ; font-size:13px; font-weight:400; font-style:normal; color:#000000 
+}
+
+.nof_ComputersProcessorNavbar3-Regular{
+font-family:Tahoma; font-size:13px; font-weight:400; font-style:normal; color:#ffffff 
+}
+
+.nof_ComputersProcessorNavbar5-Rollover{
+font-family:Tahoma; font-size:13px; font-weight:400; font-style:normal; color:#ffff00 
+}
+
+.nof_ComputersProcessorNavbar7-Highlighted{
+font-family:Tahoma; font-size:13px; font-weight:700; font-style:normal; color:#ffffff 
+}
+
+.nof_ComputersProcessorNavbar9-HighlightedRollover{
+font-family:Tahoma; font-size:13px; font-weight:700; font-style:normal; color:#ffff00 
+}

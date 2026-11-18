@@ -56,3 +56,9 @@ xcuserdata/
 # Logs & coverage
 *.log
 coverage/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
